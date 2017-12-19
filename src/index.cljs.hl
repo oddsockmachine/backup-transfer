@@ -28,11 +28,18 @@
     (p "Environment selected: " (b env-select))
 
 
+    (form :submit #(rpc/get-ws-from-env @env-select) ; edit and submit form to load record
+      ; (p (label "Workspace name: ")
+      ;     (input :value ws-select :keyup #(reset! ws-select @%)))
+      (p (button :type "submit" "Find Workspaces")))
+
     (form :submit #(rpc/do-exclaim @ws-select) ; edit and submit form to load record
       (p (label "Workspace name: ")
           (input :value ws-select :keyup #(reset! ws-select @%)))
       (p (button :type "submit" "Search")))
     (p (text "Workspaces: ~{rpc/stateE}"))
 
-    (p rpc/ws-list)
+    (ul (for-tpl [x rpc/ws-list]
+      (li x)))
+
 ))

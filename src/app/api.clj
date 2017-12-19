@@ -36,5 +36,5 @@
   (let [num (rand-int 1000)
         sql-server (env-to-sql-hostname env)
         data (get-all-ws-from-env sql-server)]
-    (prn data)
+    ; (prn data)
     data))
