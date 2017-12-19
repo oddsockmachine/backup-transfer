@@ -1,0 +1,75 @@
+
+(page "index.html"
+  (:require [app.rpc :as rpc]))
+
+
+;; Cells for each input example.
+(defc difficulty-input 3)
+(defc time-input 3)
+(defc multi-select #{""})
+(defc only-recent false)
+
+(def query (cell= (str difficulty-input "/" time-input )))
+(cell= (print query))
+
+(defc= random rpc/random-number)
+(defc= ws-mdl rpc/ws-mdl)
+(rpc/init)
+
+(html
+  (head
+    (link :href "app.css" :rel "stylesheet" :type "text/css")
+    (title "Meal Picker"))
+  (body
+    (h1 (text "Hello, Hoplon and Castra World! ~{random}"))
+    (h1 (text "Hello, Hoplon and Castra World! ~{ws-mdl}"))
+    (h1 "Meal Picker")
+    (h2 "Difficulty")
+    (input
+      :style "width:400px"
+      :type "range" :min 1 :max 5 :step 1
+      :value difficulty-input
+      :input #(reset! difficulty-input @%))
+    (p (text "Value of difficulty input: ~{difficulty-input}"))
+
+    (h2 "Time")
+    (input
+      :style "width:400px"
+      :type "range" :min 1 :max 5 :step 1
+      :value time-input
+      :input #(reset! time-input @%))
+    (p (text "Value of time input: ~{time-input}"))
+
+    (h2 "Cuisine")
+    (select
+      ;; The handler is more complex here because of the parsing of the
+      ;; selectedOptions object. The cell is a set in this case.
+      :change #(let [options (.. % -target -selectedOptions)
+                     l (.-length options)]
+                 (reset! multi-select
+                   (set
+                     (for [i (range l)]
+                       (.-value (.item options i))))))
+      :multiple "true"
+
+      ;; You need to check each option value against the multi-select cell to
+      ;; se if it should be selected.
+      (option :selected (cell= (multi-select "Asian")) :value "Asian" "Asian")
+      (option :selected (cell= (multi-select "Mexican")) :value "Mexican" "Mexican")
+      (option :selected (cell= (multi-select "Italian")) :value "Italian" "Italian")
+      (option :selected (cell= (multi-select "Indian")) :value "Indian" "Indian"))
+    (p "Value of multiple select input: " (str multi-select))
+
+    (h2 "Recent Only")
+    (label
+      (input
+        :type "checkbox"
+        ;; On checkboxes you need to return true from the handler or the
+        ;; checkbox will not uncheck (at the moment).
+        :click #(do
+                  (swap! only-recent not)
+                  true)
+        :value only-recent)
+        "Checkbox")
+    (p "Only Recent?" only-recent)
+    ))
