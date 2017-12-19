@@ -16,17 +16,21 @@
 
 (defn connect-db
   [host password]
-  (assoc dbspec :host host :password password))
+  (assoc dbspec :host host :password password)
 
-(def sql-ws-all {:select [[:workspace.name "ws"] [:model.name "mdl"]]
-                 :from [:model]
-                 :join [:workspace [:= :workspace.workspaceGuid :model.currentWorkspaceGuid]]})
+  (def sql-ws-all {:select [:name]
+                   :from [:workspace]}))
+
+
+(def sql-ws-mdl-all {:select [[:workspace.name "ws"] [:model.name "mdl"]]
+                     :from [:model]
+                     :join [:workspace [:= :workspace.workspaceGuid :model.currentWorkspaceGuid]]})
 
 (defn sql-ws-query
   [ws-names]
   (if (= (count ws-names) 0)  ; if no names specified
-      sql-ws-all  ; use default query
-      (assoc sql-ws-all :where [:in :workspace.name ws-names]))) ; else add where clause to query
+      sql-ws-mdl-all  ; use default query
+      (assoc sql-ws-mdl-all :where [:in :workspace.name ws-names]))) ; else add where clause to query
 
 (defn consolidate [ms]
   (apply merge-with conj (zipmap (mapcat keys ms) (repeat [])) ms))
@@ -39,3 +43,8 @@
   (let [quer (sql-ws-query ws-names)]
     (prn (sql/format quer))  ; debug
     (consolidate (map extract-values (into [] (j/query db-conn (sql/format quer)))))))
+
+(defn get-all-ws
+  [db-conn]
+  (prn (j/query db-conn (sql/format sql-ws-all)))
+  (j/query db-conn (sql/format sql-ws-all)))
