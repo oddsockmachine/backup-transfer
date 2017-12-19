@@ -16,10 +16,10 @@
 
 (defn connect-db
   [host password]
-  (assoc dbspec :host host :password password)
+  (assoc dbspec :host host :password password))
 
-  (def sql-ws-all {:select [:name]
-                   :from [:workspace]}))
+(def sql-ws-all {:select [:name]
+                 :from [:workspace]})
 
 
 (def sql-ws-mdl-all {:select [[:workspace.name "ws"] [:model.name "mdl"]]
@@ -44,7 +44,18 @@
     (prn (sql/format quer))  ; debug
     (consolidate (map extract-values (into [] (j/query db-conn (sql/format quer)))))))
 
-(defn get-all-ws
-  [db-conn]
-  (prn (j/query db-conn (sql/format sql-ws-all)))
-  (j/query db-conn (sql/format sql-ws-all)))
+(defn env-to-sql-hostname
+  [env]
+  (str "ec2us-mysql1-1-" env ".anaplan.com"))
+
+(defn get-all-ws-from-env
+  [host]
+  (let [db-conn (connect-db host "apcustomer")
+        data (j/query db-conn (sql/format sql-ws-all))]
+    (prn data)
+    (into [] (map #(:name %1) data))))
+    ; (prn host)
+    ; (prn "_______")
+    ; (prn db-conn)
+    ; (prn (sql/format sql-ws-all))
+    ; "bar"))

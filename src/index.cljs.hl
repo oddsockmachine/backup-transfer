@@ -7,6 +7,7 @@
 (defc= random rpc/random-number)
 (defc= ws-mdl rpc/ws-mdl)
 (defc ws-select "")
+(defc env-select "")
 ; (defc= query (str ws-select "foooo"))
 ; (cell= (print query))
 
@@ -17,9 +18,21 @@
   (body
     (h1 (text "1 = ~{random}"))
     (h1 (text "2 = ~{ws-mdl}"))
+
+    (p "Choose Environment:")
+    (select
+      :change #(reset! env-select @%)
+      :value env-select
+      (for-tpl [x rpc/env-list]
+        (option :selected (cell= (= env-select x)) :value x x)))
+    (p "Environment selected: " (b env-select))
+
+
     (form :submit #(rpc/do-exclaim @ws-select) ; edit and submit form to load record
       (p (label "Workspace name: ")
           (input :value ws-select :keyup #(reset! ws-select @%)))
-      (p (button :type "submit" "submit")))
-      (p (text "Workspaces: ~{rpc/stateE}"))
-    ))
+      (p (button :type "submit" "Search")))
+    (p (text "Workspaces: ~{rpc/stateE}"))
+
+    (p rpc/ws-list)
+))

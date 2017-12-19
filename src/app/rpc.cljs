@@ -21,13 +21,25 @@
 (def do-exclaim
   (mkremote 'app.api/exclaim stateE error loading))
 
-(def get-ws-mdl
-  (mkremote 'app.api/get-ws-mdl stateW error loading))
+(defc env-list nil)
+(def get-env-list
+  (mkremote 'app.api/get-env-list env-list error loading))
+
+
+
+; (def get-ws-mdl
+;   (mkremote 'app.api/get-ws-mdl stateW error loading))
+
+(defc ws-list nil)
+(def get-ws-from-env
+  (mkremote 'app.api/get-ws-from-env ws-list error loading))
+
 
 
 (defn init []
   ; (get-state)
-  ; (get-ws-mdl)
-  (do-exclaim [])
-  (js/setInterval get-ws-mdl 5000)
-  (js/setInterval get-state 5000))
+  (get-env-list)
+  (get-ws-from-env "gaga"))
+  ; (do-exclaim [])
+  ; (js/setInterval get-ws-mdl 15000)
+  ; (js/setInterval get-state 15000))
