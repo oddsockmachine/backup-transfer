@@ -10,7 +10,7 @@
 
 (defrpc get-ws-mdl []
   (let [num (rand-int 1000)
-        mydb (assoc dbspec :host "ec2us-mysql1-1-gaga.anaplan.com")
+        mydb (assoc dbspec :host "")
         data (get-ws-mdls mydb ["Finance" "Workflow POC"])]
     (prn "get-ws-mdl")
     (prn mydb)
