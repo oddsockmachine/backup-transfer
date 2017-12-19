@@ -8,14 +8,17 @@
 (defc time-input 3)
 (defc multi-select #{""})
 (defc only-recent false)
+(defc id nil)
 
 (def query (cell= (str difficulty-input "/" time-input )))
 (cell= (print query))
 
 (defc= random rpc/random-number)
 (defc= ws-mdl rpc/ws-mdl)
-(rpc/init)
+; (defc ws-select nil)
+; (defc= query ws-select
 
+(rpc/init)
 (html
   (head
     (link :href "app.css" :rel "stylesheet" :type "text/css")
@@ -23,6 +26,11 @@
   (body
     (h1 (text "Hello, Hoplon and Castra World! ~{random}"))
     (h1 (text "Hello, Hoplon and Castra World! ~{ws-mdl}"))
+    (form :submit #(rpc/do-exclaim @id)                 ; edit and submit form to load record
+      (p (label "Record ID: ")
+          (input :value id :keyup #(reset! id @%)))
+      (p (button :type "submit" "submit")))
+      (p (text "Record: ~{rpc/stateE}"))                    ; display the current record
     (h1 "Meal Picker")
     (h2 "Difficulty")
     (input
