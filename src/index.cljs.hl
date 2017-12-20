@@ -23,13 +23,13 @@
             (a :href "#" :class "nav-menu-button" "Menu")
 
             (div :class "nav-inner"
-                (button :class "primary-button pure-button" "Compose")
+                (button :class "primary-button pure-button" "Jevons")
 
                 (div :class "pure-menu"
                     (ul :class "pure-menu-list"
                         (li :class "pure-menu-item" (a :href "#" :class "pure-menu-link" "Environments" (span :class "email-count" (str "  "(rand-int 10)))))
-                        (li :class "pure-menu-item" (a :href "#" :class "pure-menu-link" "Outbox" (span :class "email-count" (str "  "(rand-int 10)))))
-                        (li :class "pure-menu-item" (a :href "#" :class "pure-menu-link" "Spam" (span :class "email-count" (str "  "(rand-int 10)))))
+                        (li :class "pure-menu-item" (a :href "#" :class "pure-menu-link" "Models" (span :class "email-count" (str "  "(rand-int 50)))))
+                        (li :class "pure-menu-item" (a :href "#" :class "pure-menu-link" "Cookbooks" (span :class "email-count" (str "  "(rand-int 50)))))
                         (li :class "pure-menu-heading" "Labels")
                         (li :class "pure-menu-item" (a :href "#" :class "pure-menu-link" (span :class "email-label-personal") "FOO"))
                         (li :class "pure-menu-item" (a :href "#" :class "pure-menu-link" (span :class "email-label-work") "FOO"))
