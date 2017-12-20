@@ -21,7 +21,6 @@
 (def sql-ws-all {:select [:name]
                  :from [:workspace]})
 
-
 (def sql-ws-mdl-all {:select [[:workspace.name "ws"] [:model.name "mdl"]]
                      :from [:model]
                      :join [:workspace [:= :workspace.workspaceGuid :model.currentWorkspaceGuid]]})
@@ -52,10 +51,5 @@
   [host]
   (let [db-conn (connect-db host "apcustomer")
         data (j/query db-conn (sql/format sql-ws-all))]
-    ; (prn data)
     (prn host)
     (into [] (map #(:name %1) data))))
-    ; (prn "_______")
-    ; (prn db-conn)
-    ; (prn (sql/format sql-ws-all))
-    ; "bar"))

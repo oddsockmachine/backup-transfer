@@ -1,0 +1,38 @@
+(ns hl.env-selector)
+
+
+
+
+
+
+(defelem env-stats-box [{:keys [envname envselector]} _]
+  (div :class "email-item email-item-selected pure-g"
+      (div :class "pure-u" :click #(reset! envselector envname)
+          (img :width "64" :height "64" :alt  (str envname "'s face") :class "email-avatar" :src "/img/common/avatar.png")
+          (div :class "pure-u-3-4"
+              (h5 :class "email-name" envname)
+              ; (h4 :class "email-subject" env)
+              (p :class "email-desc" "3 Workspaces (0 selected)")
+              (p :class "email-desc" "15 Models (0 selected)")
+          )
+      )
+))
+
+(defelem env-selector-list [{:keys [envlist envselector]} _]
+  (div :id "list" :class "pure-u-1"
+      (for-tpl [env envlist]
+        (env-stats-box :envname @env :envselector envselector))))
+
+(defelem model-cashier [{:keys [ws-count mdl-count env-count]} _]
+  (div :class "email-content-header pure-g"
+      (div :class "pure-u-1-2"
+          (h1 :class "email-content-title" (str (or ws-count "?") " Workspaces and " (or mdl-count "?") " Models selected"))
+          (p :class "email-content-subtitle" (str "From " (or env-count "?") " different environments"))
+      )
+
+      (div :class "email-content-controls pure-u-1-2"
+          (button :class "secondary-button pure-button" "Clear")
+          (button :class "secondary-button pure-button" "Bundle")
+          (button :class "secondary-button pure-button" "Transfer")
+      )
+  ))
