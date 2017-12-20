@@ -4,8 +4,6 @@
 
 
 ;; Cells for each input example.
-(defc= random rpc/random-number)
-(defc= ws-mdl rpc/ws-mdl)
 (defc ws-select "")
 (defc env-select "None")
 (defc= workspaces (rpc/get-ws-from-env env-select))
@@ -19,8 +17,6 @@
     (link :href "css/extra.css" :rel "stylesheet" :type "text/css")
     (title "Model Shop"))
   (body
-    ; (h1 (text "1 = ~{random}"))
-    ; (h1 (text "2 = ~{ws-mdl}"))
 
     (div :id "layout" :class "content pure-g"
         (div :id "nav" :class "pure-u"
@@ -45,20 +41,14 @@
         (div :class "email-item email-item-selected pure-g"
             (div :class "pure-u" :click #(reset! env-select @env)
                 (img :width "64" :height "64" :alt  (str @env "'s face") :class "email-avatar" :src "/img/common/avatar.png")
-
                 (div :class "pure-u-3-4"
                     (h5 :class "email-name" env)
                     ; (h4 :class "email-subject" env)
-                    ; (p :class "email-desc" "Hey, I just wanted to check in with you from Toronto. I got here earlier today.")
                     (p :class "email-desc" "3 Workspaces (0 selected)")
                     (p :class "email-desc" "15 Models (0 selected)")
                 )
             )
-
       )))
-
-
-
 
 
           (div :id "main" :class "pure-u-1"
@@ -66,9 +56,9 @@
                   (div :class "email-content-header pure-g"
                       (div :class "pure-u-1-2"
                           (h1 :class "email-content-title"
-                              "2 Workspaces and 6 Models selected")
+                              "0 Workspaces and 0 Models selected")
                           (p :class "email-content-subtitle"
-                              "From 2 different environments")
+                              "From 0 different environments")
                       )
 
                       (div :class "email-content-controls pure-u-1-2"
@@ -79,14 +69,7 @@
                   )
 
                   (div :class "email-content-body"
-
                       (h1 "Environment selected: " (b env-select))
-
-
-                      ; (form :submit #(rpc/get-ws-from-env @env-select) ; edit and submit form to load record
-                      ;   ; (p (label "Workspace name: ")
-                      ;   ;     (input :value ws-select :keyup #(reset! ws-select @%)))
-                      ;   (p (button :type "submit" "Find Workspaces")))
 
                       ;    TODO REPLACE EXCLAIM W WS-MDLS
                       (form :submit #(rpc/do-exclaim @ws-select) ; edit and submit form to load record
@@ -95,91 +78,21 @@
                         (p (button :type "submit" "Search")))
                       (p (text "Workspaces: ~{rpc/stateE}"))
 
-                      ; (ul (for-tpl [x rpc/ws-list]
-                      ;   (li x     (input
-                      ;         :type "checkbox"
-                      ;         :click #(do (swap! check-box not) true)
-                      ;         :value check-box))))
-
-
                               (table :class "pure-table pure-table-horizontal"
                                   (thead
                                       (tr
                                           (th "#")
                                           (th "Workspace Name")
                                           (th "Model Name")
-                                          (th "Selected")
-                                      )
-                                  )
-
+                                          (th "Selected")))
                                   (tbody
-                                      (tr
-                                          (td "1")
-                                          (td "Honda")
-                                          (td "Accord")
-                                          (td (input :type "checkbox"))
-                                      )
-
-                                      (tr :class "pure-table-odd"
-                                          (td "2")
-                                          (td "Toyota")
-                                          (td "Camry")
-                                          (td "2012")
-                                      )
-
-                                      (tr
-                                          (td "3")
-                                          (td "Hyundai")
-                                          (td "Elantra")
-                                          (td "2010")
-                                      )
-
                                       (for-tpl [x rpc/ws-list]
                                         (tr :class (if (< (rand-int 10) 5) "pure-table-odd" "")
                                             (td "1")
                                             (td x)
                                             (td "-")
-                                            (td (input :type "checkbox"))
-                                        ))
-
-                                  )
-                              )
-
-
+                                            (td (input :type "checkbox" :click #(do (swap! check-box not) true) :value check-box))
+                                            ))))
 
                       )))
                       )))
-
-
-
-    ; (h1 "Choose Environment:")
-    ; (select
-    ;   :change #(reset! env-select @%)
-    ;   :value env-select
-    ;   (option :selected (cell= (= env-select nil)) :value nil "none")
-    ;   (for-tpl [x rpc/env-list]
-    ;     (option :selected (cell= (= env-select x)) :value x x)))
-    ; (p "Environment selected: " (b env-select))
-    ;
-    ;
-    ; (form :submit #(rpc/get-ws-from-env @env-select) ; edit and submit form to load record
-    ;   ; (p (label "Workspace name: ")
-    ;   ;     (input :value ws-select :keyup #(reset! ws-select @%)))
-    ;   (p (button :type "submit" "Find Workspaces")))
-    ;
-    ; ;    TODO REPLACE EXCLAIM W WS-MDLS
-    ; (form :submit #(rpc/do-exclaim @ws-select) ; edit and submit form to load record
-    ;   (p (label "Workspace name: ")
-    ;       (input :value ws-select :keyup #(reset! ws-select @%)))
-    ;   (p (button :type "submit" "Search")))
-    ; (p (text "Workspaces: ~{rpc/stateE}"))
-    ;
-    ; (ul (for-tpl [x rpc/ws-list]
-    ;   (li x     (input
-    ;         :type "checkbox"
-    ;         :click #(do (swap! check-box not) true)
-    ;         :value check-box))))
-
-
-;
-; ))

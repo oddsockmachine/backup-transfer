@@ -27,7 +27,7 @@
     data))
 
 (defrpc get-env-list []
-  (let [envs ["gaga" "nurding" "kesha" "qa2" "gaga" "nurding" "kesha" "qa2" "gaga" "nurding" "kesha" "qa2"]]
+  (let [envs ["gaga" "nurding" "kesha" "qa2" "kanye" "bieber" "drake" "chvrches" "gaga" "nurding" "kesha" "qa2"]]
     (prn envs)
     envs))
 
