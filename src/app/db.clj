@@ -53,8 +53,8 @@
   (let [db-conn (connect-db host "apcustomer")
         data (j/query db-conn (sql/format sql-ws-all))]
     ; (prn data)
+    (prn host)
     (into [] (map #(:name %1) data))))
-    ; (prn host)
     ; (prn "_______")
     ; (prn db-conn)
     ; (prn (sql/format sql-ws-all))
