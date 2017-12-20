@@ -40,9 +40,8 @@
                         (li :class "pure-menu-item" (a :href "#" :class "pure-menu-link" (span :class "email-label-travel") "FOO"))
                       ))))
 
-
     (div :id "list" :class "pure-u-1"
-    (for-tpl [env rpc/env-list]
+        (for-tpl [env rpc/env-list]
         (div :class "email-item email-item-selected pure-g"
             (div :class "pure-u" :click #(reset! env-select @env)
                 (img :width "64" :height "64" :alt  (str @env "'s face") :class "email-avatar" :src "/img/common/avatar.png")
@@ -84,10 +83,10 @@
                       (h1 "Environment selected: " (b env-select))
 
 
-                      (form :submit #(rpc/get-ws-from-env @env-select) ; edit and submit form to load record
-                        ; (p (label "Workspace name: ")
-                        ;     (input :value ws-select :keyup #(reset! ws-select @%)))
-                        (p (button :type "submit" "Find Workspaces")))
+                      ; (form :submit #(rpc/get-ws-from-env @env-select) ; edit and submit form to load record
+                      ;   ; (p (label "Workspace name: ")
+                      ;   ;     (input :value ws-select :keyup #(reset! ws-select @%)))
+                      ;   (p (button :type "submit" "Find Workspaces")))
 
                       ;    TODO REPLACE EXCLAIM W WS-MDLS
                       (form :submit #(rpc/do-exclaim @ws-select) ; edit and submit form to load record
@@ -96,11 +95,56 @@
                         (p (button :type "submit" "Search")))
                       (p (text "Workspaces: ~{rpc/stateE}"))
 
-                      (ul (for-tpl [x rpc/ws-list]
-                        (li x     (input
-                              :type "checkbox"
-                              :click #(do (swap! check-box not) true)
-                              :value check-box))))
+                      ; (ul (for-tpl [x rpc/ws-list]
+                      ;   (li x     (input
+                      ;         :type "checkbox"
+                      ;         :click #(do (swap! check-box not) true)
+                      ;         :value check-box))))
+
+
+                              (table :class "pure-table pure-table-horizontal"
+                                  (thead
+                                      (tr
+                                          (th "#")
+                                          (th "Workspace Name")
+                                          (th "Model Name")
+                                          (th "Selected")
+                                      )
+                                  )
+
+                                  (tbody
+                                      (tr
+                                          (td "1")
+                                          (td "Honda")
+                                          (td "Accord")
+                                          (td (input :type "checkbox"))
+                                      )
+
+                                      (tr :class "pure-table-odd"
+                                          (td "2")
+                                          (td "Toyota")
+                                          (td "Camry")
+                                          (td "2012")
+                                      )
+
+                                      (tr
+                                          (td "3")
+                                          (td "Hyundai")
+                                          (td "Elantra")
+                                          (td "2010")
+                                      )
+
+                                      (for-tpl [x rpc/ws-list]
+                                        (tr :class (if (< (rand-int 10) 5) "pure-table-odd" "")
+                                            (td "1")
+                                            (td x)
+                                            (td "-")
+                                            (td (input :type "checkbox"))
+                                        ))
+
+                                  )
+                              )
+
 
 
                       )))
