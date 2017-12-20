@@ -38,8 +38,8 @@
 
 (defn init []
   ; (get-state)
-  (get-env-list)
-  (get-ws-from-env "gaga"))
+  (get-env-list))
+  ; (get-ws-from-env "gaga"))
   ; (do-exclaim [])
   ; (js/setInterval get-ws-mdl 15000)
   ; (js/setInterval get-state 15000))
